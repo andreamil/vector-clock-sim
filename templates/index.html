@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Simulador Modular de Relógios Vetoriais</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container-fluid mt-4">
+        <h3>Simulador Modular de Relógios Vetoriais</h3>
+        <p>Controle a simulação em modo automático ou passo a passo (tick).</p>
+        
+        <div class="row">
+            <!-- Coluna de Controles -->
+            <div class="col-md-3">
+                <h4>Controles Globais</h4>
+                <div class="btn-group w-100 mb-2">
+                    <button id="start-btn" class="btn btn-success">Automático</button>
+                    <button id="pause-btn" class="btn btn-warning">Pausar</button>
+                    <button id="tick-btn" class="btn btn-info">Avançar Tick</button>
+                </div>
+                <div class="d-grid gap-2">
+                    <button id="add-process-btn" class="btn btn-primary">Adicionar Processo</button>
+                    <button id="reset-btn" class="btn btn-danger">Resetar Tudo</button>
+                </div>
+                <hr>
+                <div id="status-div" class="alert alert-secondary">
+                    Status: Pausado
+                </div>
+            </div>
+
+            <!-- Coluna da Visualização -->
+            <div class="col-md-9">
+                <h4>Visualização do Espaço-Tempo</h4>
+                <div id="visualization-container" class="border bg-light"></div>
+            </div>
+        </div>
+
+        <hr>
+        <h4>Controles dos Processos</h4>
+        <div id="process-controls-container" class="row mt-2">
+            <!-- Controles de cada processo serão inseridos aqui -->
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.socket.io/4.5.0/socket.io.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@svgdotjs/svg.js@3.0/dist/svg.min.js"></script>
+    <script src="{{ url_for('static', filename='js/simulation.js') }}"></script>
+</body>
+</html>
