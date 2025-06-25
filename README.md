@@ -2,7 +2,7 @@
 # 🕒 Simulador Interativo de Relógios Vetoriais
 
 Trabalho prático da disciplina de **Sistemas Distribuídos - UFSC (2025.1)**  
-Grupos 4 e 8 – Tema: **Relógios Vetoriais**
+Grupo 4 – Tema: **Relógios Vetoriais**
 
 ---
 
