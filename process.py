@@ -1,24 +1,18 @@
-# process.py
+
 import random
 import queue
 import uuid
 
 class Process:
-    # ... (all methods are the same except receive_message)
+    
 
-    def receive_message(self, sender_id, received_clock, message_id, time_tick, trigger_update=False):
-        """
-        Handles a received message, creating the 'receive' event.
-        It defensively handles clocks of different lengths.
-        """
-        # *** FIX: Pad the received clock if it's shorter than the local clock ***
+    def receive_message(self, sender_id, received_clock, message_id, time_tick, trigger_update=False):       
         current_len = len(self.clock)
         received_len = len(received_clock)
         if received_len < current_len:
-            # Pad the received clock with zeros for the processes it didn't know about.
+            
             received_clock.extend([0] * (current_len - received_len))
-
-        # Now update the clock. The lengths are guaranteed to be the same.
+        
         for i in range(current_len):
             self.clock[i] = max(self.clock[i], received_clock[i])
         
@@ -27,8 +21,7 @@ class Process:
         self._create_event("receive", self.clock.copy(), time_tick, sender_id=sender_id, message_id=message_id)
         if trigger_update:
             self.update_queue.put(True)
-    
-    # ... (The rest of the file is identical to the last correct version)
+        
     def __init__(self, process_id, num_processes_initial, message_hub_queue, update_queue):
         self.process_id = process_id
         self.clock = [0] * num_processes_initial

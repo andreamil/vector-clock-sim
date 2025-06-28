@@ -1,13 +1,12 @@
-# app.py
+
 import threading
 import time
 import queue
 from flask import Flask, render_template
 from flask_socketio import SocketIO
-from process import Process # Importa a classe Process
+from process import Process 
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'a_much_better_secret_key!'
 socketio = SocketIO(app, async_mode='threading')
 
 class SimulationManager:
@@ -64,10 +63,6 @@ class SimulationManager:
         self.update_queue.put(True)
 
     def force_message(self, sender_id, receiver_id):
-        """
-        Handles a user-forced message, creating send and receive events in
-        two consecutive time ticks to ensure correct visualization.
-        """
         with self.lock:
             if not (0 <= sender_id < len(self.processes) and 0 <= receiver_id < len(self.processes)):
                 return
@@ -75,14 +70,11 @@ class SimulationManager:
             sender_process = self.processes[sender_id]
             receiver_process = self.processes[receiver_id]
 
-            # --- Step 1: Create the SEND event in its own tick ---
             self.global_time_tick += 1
             send_time_tick = self.global_time_tick
             
-            # Get the message payload from the sender
             message_payload = sender_process.force_send_message(receiver_id, send_time_tick)
-            
-            # --- Step 2: Create the RECEIVE event in the NEXT tick ---
+                       
             if message_payload:
                 self.global_time_tick += 1
                 receive_time_tick = self.global_time_tick
@@ -90,9 +82,6 @@ class SimulationManager:
                 sent_clock, message_id = message_payload
                 receiver_process.receive_message(sender_id, sent_clock, message_id, receive_time_tick)
 
-        # The process methods already put notifications in the queue,
-        # so the frontend will get a single, consolidated update.
-        # We need to ensure at least one update signal is sent.
         self.update_queue.put(True)
 
     def add_process(self):

@@ -45,16 +45,14 @@ function renderVisualization(state) {
         draw.text(`(${event.clock.join(',')})`).font({ anchor: 'middle', family: 'monospace', size: 12 }).move(x, y + 20);
     });
 
-    // *** 3. FIX: Draw arrows using the reliable message_id ***
+    // 3. Draw arrows using the reliable message_id
     const arrowMarker = draw.defs().marker(10, 10, function(add) {
         add.path('M0,0 L10,5 L0,10 Z').fill('#6c757d');
     });
 
-    // Find all 'send' events
     const sendEvents = allEvents.filter(e => e.type === 'send');
 
     sendEvents.forEach(sendEvent => {
-        // For each send event, find the matching receive event
         const receiveEvent = allEvents.find(
             e => e.type === 'receive' && e.message_id === sendEvent.message_id
         );
@@ -75,9 +73,6 @@ function renderVisualization(state) {
     });
 }
 
-
-// The rest of the JS file (updateUI, renderProcessControls, global functions)
-// remains the same. Just ensure the renderVisualization function is fully replaced.
 document.addEventListener('DOMContentLoaded', function() {
     const socket = io();
 
